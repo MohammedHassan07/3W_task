@@ -3,6 +3,7 @@ const cors = require('cors')
 const express = require('express')
 const DB_connection = require('./config/DBConnection')
 const userRoute = require('./routes/user.routes')
+const adminRoute = require('./routes/admin.routes')
 
 
 const app = express()
@@ -23,3 +24,4 @@ app.listen(port, () => {
 })
 
 app.use('/user', userRoute)
+app.use('/admin', adminRoute)

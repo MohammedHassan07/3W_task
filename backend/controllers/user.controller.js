@@ -10,7 +10,8 @@ const createUser = async (req, res) => {
 
         const {
             email,
-            password
+            password,
+            isAdmin
         } = req.body
 
         // console.log('create-profile -->', req.body)
@@ -20,7 +21,8 @@ const createUser = async (req, res) => {
 
         const userData = new userModel({
             email,
-            password: hashPass
+            password: hashPass,
+            isAdmin
         })
 
         const saved_data = await userData.save()
@@ -144,6 +146,7 @@ const uploadData = async (req, res) => {
         return
     }
 }
+
 module.exports = {
     createUser,
     loginUser,
