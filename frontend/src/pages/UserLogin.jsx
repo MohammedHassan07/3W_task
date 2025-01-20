@@ -2,10 +2,10 @@ import React, { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 
 const UserLogin = () => {
-    
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [isAdmin, setIsAdmin] = useState(false) // state to toggle between user and admin login
     const navigate = useNavigate()
 
     const handleLogin = async (e) => {
@@ -17,7 +17,9 @@ const UserLogin = () => {
         }
 
         setError("") 
-        const res = await fetch('http://localhost:3000/user/login', {
+        const url = isAdmin ? 'http://localhost:3000/admin/login' : 'http://localhost:3000/user/login'
+
+        const res = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -34,15 +36,28 @@ const UserLogin = () => {
         console.log(response)
         const token = response.data.token
         localStorage.setItem('token', token)
-        navigate('/form-submission')
-
+        navigate('/form-submission') // Redirect to the appropriate page
     }
 
     return (
         <div className="container d-flex align-items-center justify-content-center vh-100">
             <div className="card p-4 shadow-lg" style={{ maxWidth: "400px", width: "100%" }}>
-                <h3 className="text-center mb-4">User Login</h3>
+                <h3 className="text-center mb-4">
+                    {isAdmin ? 'Admin Login' : 'User Login'}
+                </h3>
                 {error && <div className="alert alert-danger text-center">{error}</div>}
+                
+                <div className="form-group mb-3 d-flex align-items-center">
+                    <label htmlFor="adminSwitch" className="mr-2">Admin Login</label>
+                    <input
+                        type="checkbox"
+                        id="adminSwitch"
+                        className="form-check-input"
+                        checked={isAdmin}
+                        onChange={() => setIsAdmin(!isAdmin)}
+                    />
+                </div>
+
                 <form onSubmit={handleLogin}>
                     <div className="form-group mb-3">
                         <label htmlFor="email">Email</label>
@@ -69,7 +84,7 @@ const UserLogin = () => {
                         />
                     </div>
                     <button type="submit" className="btn btn-primary w-100">
-                        Login
+                        {isAdmin ? 'Admin Login' : 'User Login'}
                     </button>
                 </form>
             </div>

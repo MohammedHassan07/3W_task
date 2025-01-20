@@ -50,8 +50,8 @@ const FormSubmission = () => {
     }
 
     return (
-        <div className="container">
-            <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", marginTop: "50px" }}>
+        <div className="container d-flex justify-content-center align-items-center ">
+            <div className="card p-4 shadow-lg w-75" style={{ maxWidth: "500px", marginTop: "50px" }}>
                 <h3 className="text-center mb-4">User Form</h3>
                 {error && <div className="alert alert-danger">{error}</div>}
                 {successMessage && <div className="alert alert-success">{successMessage}</div>}
