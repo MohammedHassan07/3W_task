@@ -1,5 +1,6 @@
 
 const userModel = require('../models/user.model')
+const postModel = require('../models/userPost.model')
 const { generate_password, compare_password } = require('../utils/hash')
 const { generate_token } = require('../utils/token')
 
@@ -108,6 +109,43 @@ const loginUser = async (req, res) => {
         })
     }
 }
+
+// upload data
+const uploadData = async (req, res) => {
+    try {
+
+        const { socialMediaHandle, name } = req.body
+
+        userId = req.id
+
+        const imagesName = req.files.map(file => file.filename)
+        const userPost = new postModel({
+
+            userId,
+            name,
+            socialMediaHandle,
+            images: imagesName
+        })
+
+        const saved_data = await userPost.save()
+        res.status(201).json({
+            "status": 201,
+            "message": "Data uploaded successfully.",
+
+        })
+    } catch (error) {
+
+        console.log('crearte profile --> ', error)
+        res.status(500).json({
+            "status": 500,
+            "error": "Internal Server Error",
+            "message": "An error occurred while attempting to save the data. Please try again later."
+        })
+        return
+    }
+}
 module.exports = {
-    createUser, loginUser
+    createUser,
+    loginUser,
+    uploadData
 }

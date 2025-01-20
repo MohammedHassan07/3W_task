@@ -1,10 +1,14 @@
 const express = require('express')
-const { createUser, loginUser } = require('../controllers/user.controller')
+const { createUser, loginUser, uploadData } = require('../controllers/user.controller')
+const imageUpload = require('../middlewares/uploadImages')
+const verify_jwt_token = require('../middlewares/verifyToken')
 
 const userRoute = express.Router()
 
 userRoute.post('/create-profile', createUser)
 
 userRoute.post('/login', loginUser)
+
+userRoute.post('/upload-data', imageUpload.array('images'), verify_jwt_token, uploadData )
 
 module.exports = userRoute

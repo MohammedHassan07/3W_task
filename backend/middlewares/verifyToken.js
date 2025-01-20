@@ -40,4 +40,4 @@ function verify_jwt_token(req, res, next) {
     }
 }
 
-module.exports = { verify_jwt_token }
+module.exports =  verify_jwt_token 
