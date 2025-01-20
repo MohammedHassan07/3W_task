@@ -1,54 +1,64 @@
-import React, { useState } from "react"
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const UserLogin = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-   const navigate = useNavigate()
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
-    function signup() {
-        navigate('signup')
+    function signin() {
+        navigate('/');
     }
 
     const handleLogin = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!email || !password) {
-            setError("Both fields are required!")
-            return
+            setError("Both fields are required!");
+            return;
         }
 
-        setError("") 
+        setError("");
         
-        const res = await fetch('http://localhost:3000/user/login', {
+        const res = await fetch('http://localhost:3000/user/create-profile', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({ email, password })
-        })
+        });
 
-        const response = await res.json()
-        if (response.status !== 200) {
-            setError(response.message)
-            return
+        const response = await res.json();
+        if (response.status !== 201) {
+            setError(response.message);
+            return;
         }
 
-        console.log(response)
-        const token = response.data.token
-        localStorage.setItem('token', token)
-        navigate('/form-submission') // Redirect to the appropriate page
+        console.log(response);
+        navigate('/'); 
     }
 
     return (
         <div className="container d-flex align-items-center justify-content-center vh-100">
-            <div className="card p-4 shadow-lg" style={{ maxWidth: "400px", width: "100%" }}>
+            <div
+                className="card p-4 shadow-lg"
+                style={{
+                    maxWidth: "400px",
+                    width: "100%",
+                    minHeight: "400px", // Adjusting the height of the card
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
                 <h3 className="text-center mb-4">
-                 User Login
+                    Create Profile Login
                 </h3>
                 {error && <div className="alert alert-danger text-center">{error}</div>}
-               
+
+
 
                 <form onSubmit={handleLogin}>
                     <div className="form-group mb-3">
@@ -79,11 +89,11 @@ const UserLogin = () => {
                         User Login
                     </button>
 
-                    <p className="mt-13" onClick={signup} style={{ cursor: 'pointer', textAlign: 'center' }}>Don`t have Account Sign Up</p>
+                    <p onClick={signin} style={{ cursor: 'pointer', textAlign: 'center' }}>Don’t have an account? Sign Up</p>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default UserLogin
+export default UserLogin;

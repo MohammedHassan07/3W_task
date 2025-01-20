@@ -4,6 +4,7 @@ import UserLogin from './pages/UserLogin'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import FormSubmission from './pages/FormSubmission'
 import AdminDashboard from './pages/AdminDashboard'
+import CreateProfile from './pages/CreateProfile'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<UserLogin />} />
           <Route path='form-submission' element={<FormSubmission />} />
           <Route path='/admin-dashboard' element={<AdminDashboard />} />
+          <Route path='signup' element={<CreateProfile />} />
         </Routes>
       </BrowserRouter>
     </>
