@@ -1,53 +1,12 @@
-
 const userModel = require('../models/user.model')
 const postModel = require('../models/userPost.model')
 const { generate_password, compare_password } = require('../utils/hash')
 const { generate_token } = require('../utils/token')
 
-// Create profile
-const createUser = async (req, res) => {
-    try {
-
-        const {
-            email,
-            password,
-            isAdmin
-        } = req.body
-
-        // console.log('create-profile -->', req.body)
-
-        // hash password
-        const hashPass = await generate_password(password)
-
-        const userData = new userModel({
-            email,
-            password: hashPass,
-            isAdmin
-        })
-
-        const saved_data = await userData.save()
-        res.status(201).json({
-            "status": 201,
-            "message": "User registered successfully.",
-            email: email
-        })
-
-    } catch (error) {
-
-        console.log('crearte profile --> ', error)
-        res.status(500).json({
-            "status": 500,
-            "error": "Internal Server Error",
-            "message": "An error occurred while attempting to save the data. Please try again later."
-        })
-        return
-    }
-}
-
 // Login pharma
-const loginUser = async (req, res) => {
+const adminLogin = async (req, res) => {
 
-    console.log(req.body)
+    // console.log(req.body)
     try {
 
         const {
@@ -70,7 +29,9 @@ const loginUser = async (req, res) => {
 
         // check password
         const verified = await compare_password(password, userData.password)
-        console.log(verified)
+
+        // console.log(verified)
+
         if (!verified) {
 
             res.status(402).json({
@@ -103,7 +64,7 @@ const loginUser = async (req, res) => {
 
     } catch (error) {
 
-        console.log('login user --> ', error)
+        console.log('login admin --> ', error)
         res.status(500).json({
             "status": 500,
             "error": "Internal Server Error",
@@ -112,43 +73,29 @@ const loginUser = async (req, res) => {
     }
 }
 
-// upload data
-const uploadData = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
 
-        const { socialMediaHandle, name } = req.body
+        // console.log('admin', req.id)
 
-        userId = req.id
+        const userId = req.id
 
-        const imagesName = req.files.map(file => file.filename)
-        const userPost = new postModel({
+        const users = await postModel.find()
 
-            userId,
-            name,
-            socialMediaHandle,
-            images: imagesName
-        })
-
-        const saved_data = await userPost.save()
-        res.status(201).json({
-            "status": 201,
-            "message": "Data uploaded successfully.",
-
-        })
+        console.log('get users --> ', users)
+        res.end()
     } catch (error) {
 
-        console.log('crearte profile --> ', error)
+        console.log('get users --> ', error)
         res.status(500).json({
             "status": 500,
             "error": "Internal Server Error",
             "message": "An error occurred while attempting to save the data. Please try again later."
         })
-        return
     }
 }
 
 module.exports = {
-    createUser,
-    loginUser,
-    uploadData
+    adminLogin,
+    getAllUsers
 }

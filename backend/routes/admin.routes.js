@@ -2,13 +2,13 @@ const express = require('express')
 const { createUser, loginUser, uploadData } = require('../controllers/user.controller')
 const imageUpload = require('../middlewares/uploadImages')
 const verify_jwt_token = require('../middlewares/verifyToken')
+const { adminLogin, getAllUsers } = require('../controllers/admin.controller')
+const isAdmin  = require('../middlewares/isAdmin')
 
 const adminRoute = express.Router()
 
-adminRoute.post('/create-profile', createUser)
+adminRoute.post('/login', adminLogin)
 
-adminRoute.post('/login', loginUser)
-
-adminRoute.post('/upload-data', imageUpload.array('images'), verify_jwt_token, uploadData )
+adminRoute.get('/get-users', verify_jwt_token, isAdmin, getAllUsers)
 
 module.exports = adminRoute
