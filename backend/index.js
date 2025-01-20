@@ -2,6 +2,7 @@ require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const DB_connection = require('./config/DBConnection')
+const userRoute = require('./routes/user.routes')
 
 
 const app = express()
@@ -21,3 +22,4 @@ app.listen(port, () => {
   DB_connection()
 })
 
+app.use('/user', userRoute)

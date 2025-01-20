@@ -5,7 +5,7 @@ async function generate_password(userPassword) {
     try {
 
         // console.log(userPassword)
-        const hashSalt = bcryptjs.genSaltSync(10); // retreive it from .env 
+        const hashSalt = bcryptjs.genSaltSync(10); // retreive it from .env
         const hashPassword = await bcryptjs.hash(userPassword, hashSalt)
 
         if (!hashPassword) {
