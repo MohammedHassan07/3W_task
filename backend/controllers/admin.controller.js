@@ -82,8 +82,18 @@ const getAllUsers = async (req, res) => {
 
         const users = await postModel.find()
 
-        console.log('get users --> ', users)
-        res.end()
+        if (!users) {
+            return res.status(404).json({
+                "status": 404,
+                "error": "Not Found",
+                "message": "The requested data was not found."
+            })
+        }
+        res.status(200).json({
+            "status": 200,
+            users
+        })
+
     } catch (error) {
 
         console.log('get users --> ', error)
