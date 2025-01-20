@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
 
         // check password
         const verified = await compare_password(password, userData.password)
-        console.log(verified)
+        // console.log(verified)
         if (!verified) {
 
             res.status(402).json({

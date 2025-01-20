@@ -19,7 +19,7 @@ module.exports = async function isAdmin(req, res, next) {
             return res.status(402).json({
                 "status": 401,
                 "error": "Unauthorized",
-                "message": "Invalid credentials. Please check your username and password and try again."
+                "message": "You are not and admin"
             })
         }
 

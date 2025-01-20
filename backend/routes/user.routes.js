@@ -3,6 +3,7 @@ const { createUser, loginUser, uploadData } = require('../controllers/user.contr
 const imageUpload = require('../middlewares/uploadImages')
 const verify_jwt_token = require('../middlewares/verifyToken')
 const isUnique = require('../middlewares/isUnique')
+const isAdmin = require('../middlewares/isAdmin')
 
 const userRoute = express.Router()
 
